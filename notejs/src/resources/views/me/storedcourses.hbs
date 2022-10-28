@@ -1,0 +1,79 @@
+<table class="table mt-5">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tên khóa học</th>
+      <th scope="col">Mô tả khóa học</th>
+      <th></th>
+      <th></th>
+      
+    </tr>
+  </thead>
+  <tbody>
+      {{#each courses}}
+    <tr>
+      <th scope="row">{{sum @index 1}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.description}}</td>
+      <td>
+          <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+      </td>
+      <td>
+          <a href="#" data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#exampleModal" class="btn btn-link">Xóa</a>
+      </td>
+      
+    </tr>
+    {{/each}}
+    
+  </tbody>
+</table>
+
+{{!-- alert --}}
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn muốn xóa khóa học
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="delete-course" class="btn btn-danger" >Yes</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- delete form --}}
+<form name="delete-form" method="POST"></form>
+
+<script>
+     var courseId;
+     var deleteForm = document.forms['delete-form']
+    const exampleModal = document.getElementById('exampleModal')
+    exampleModal.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+    const button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+     courseId = button.getAttribute('data-id')
+    
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+  
+    
+    })
+    var deleteCourse = document.getElementById("delete-course");
+    deleteCourse.onclick = function(){
+      
+      deleteForm.action = '/courses/' + courseId + "?_method=delete";
+       deleteForm.submit(); 
+     
+    }
+</script>
